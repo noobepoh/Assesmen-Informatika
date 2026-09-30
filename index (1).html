@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8"><title>Asesmen Bab 4 - Sistem Komputer</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--tx:#1b1f2a;--mu:#5b6478;--ac:#3457d5;--bd:#dfe3ee;--ok:#1f9d55;--no:#d64545;--tan:#f3e3c3;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12141a;--card:#1c1f28;--tx:#eef0f6;--mu:#9aa3b8;--ac:#7c9bff;--bd:#2d3242;--ok:#4cc38a;--no:#ff7b7b;--tan:#4a4030}}
+:root[data-theme="dark"]{--bg:#12141a;--card:#1c1f28;--tx:#eef0f6;--mu:#9aa3b8;--ac:#7c9bff;--bd:#2d3242;--ok:#4cc38a;--no:#ff7b7b;--tan:#4a4030}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+#app{max-width:560px;margin:0 auto;padding:16px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:16px;margin-bottom:12px}
+h1{font-size:20px;margin:4px 0 8px}p{margin:0 0 10px}.mu{color:var(--mu);font-size:14px}
+input,select{width:100%;padding:13px;border:1px solid var(--bd);border-radius:10px;font-size:16px;background:var(--bg);color:var(--tx);margin:4px 0 12px}
+button{font:inherit;cursor:pointer}
+.pri{width:100%;padding:14px;border:0;border-radius:12px;background:var(--ac);color:#fff;font-weight:600;font-size:16px}
+.opt{display:block;width:100%;text-align:left;padding:13px 14px;margin-bottom:8px;border:1.5px solid var(--bd);border-radius:12px;background:var(--card);color:var(--tx)}
+.opt.on{border-color:var(--ac);background:color-mix(in srgb,var(--ac) 14%,var(--card))}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;font-weight:600}
+#tm{font-size:22px;color:var(--ac)}#tm.lo{color:var(--no)}
+.bar{height:8px;background:var(--bd);border-radius:6px;overflow:hidden;margin-bottom:12px}.bar i{display:block;height:100%;width:100%;background:var(--ac)}
+.err{color:var(--no);font-size:14px;min-height:20px;margin:-6px 0 8px}
+svg{display:block;width:100%;max-width:340px;height:auto;margin:6px auto 12px;background:#e9ecf2;border-radius:10px}
+.a{fill:var(--card)}.c{fill:var(--tan)}.hl{fill:#ffd166}.t{fill:var(--tx);font-size:10px}.q{fill:#000;font-size:16px;font-weight:700}
+#gp{position:fixed;right:10px;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:5}#gp button{padding:8px 12px;border-radius:20px;border:1px solid var(--bd);background:var(--card);color:var(--tx);font-size:13px}#pn{position:fixed;inset:0;background:var(--bg);overflow:auto;padding:16px;padding-top:calc(16px + env(safe-area-inset-top,0px));z-index:9}#pn input[type=checkbox]{width:auto;margin:0 8px 0 0}#pn label{display:block}.big{font-size:44px;font-weight:700;color:var(--ac);text-align:center}
+.rv{border-top:1px solid var(--bd);padding:10px 0;font-size:14px}.rv b{color:var(--ok)}.rv s{color:var(--no)}
+</style></head><body><div id="app"></div>
+<!--
+=== PENGATURAN GURU ===
+Ubah baris di bawah ini untuk mengatur kelas.
+"on": true  = kelas dibuka, siswa bisa masuk.
+"on": false = kelas ditutup.
+"kode" = kode yang dibagikan ke kelas itu (harus berbeda tiap kelas).
+"sesi": naikkan angkanya (2 menjadi 3, dst) agar semua siswa bisa mengerjakan ulang.
+Jangan mengubah tanda kutip, koma, atau kurung kurawal.
+-->
+<script type="application/json" id="cfg">{"sesi":2,"kelas":{"8A":{"kode":"8A-ALFA","on":false},"8B":{"kode":"8B-BETA","on":false},"8C":{"kode":"8C-GAMMA","on":false},"8D":{"kode":"8D-DELTA","on":false},"8E":{"kode":"8E-OMEGA","on":false},"8F":{"kode":"8F-SIGMA","on":false},"8G":{"kode":"8G-KAPPA","on":false},"8H":{"kode":"8H-THETA","on":false},"8I":{"kode":"8I-ZETA","on":false}}}</script>
+<script id="main">
+// ====== PENGATURAN GURU ======
+var CFG=JSON.parse(document.getElementById("cfg").textContent);
+var KEY="asesmen_bab4_s"+CFG.sesi, T={e:50,m:60,h:70,k:50};
+// Format: [soal, [JAWABAN BENAR, salah, salah, salah], tingkat(e/m/h/k), gambar(opsional)]
+var Q=[
+["Komponen yang sering disebut ‘otak’ komputer adalah…",["CPU","Monitor","Printer","Mouse"],"e"],
+["Kepanjangan CPU adalah…",["Central Processing Unit","Central Program Utility","Computer Personal Unit","Control Processing Unit"],"e"],
+["Papan sirkuit utama yang menghubungkan CPU, RAM, dan kartu grafis disebut…",["Motherboard","Power Supply","GPU","ROM"],"e"],
+["GPU khusus memproses…",["Data grafis dan visual","Arus listrik","Data suara masukan","Penyimpanan jangka panjang"],"e"],
+["Fungsi Power Supply Unit (PSU) adalah…",["Mengubah arus listrik agar sesuai untuk seluruh komponen","Memproses data grafis","Menyimpan data permanen","Menghubungkan semua komponen"],"e"],
+["Berikut ini yang termasuk perangkat input adalah…",["Keyboard","Monitor","Printer","Speaker"],"e"],
+["Berikut ini yang termasuk perangkat output adalah…",["Monitor","Mouse","Keyboard","Touchpad"],"e"],
+["Komponen fisik komputer yang dapat dilihat dan disentuh disebut…",["Perangkat keras (hardware)","Perangkat lunak (software)","Sistem operasi","Aplikasi"],"e"],
+["Kumpulan instruksi/program yang mengatur perangkat keras disebut…",["Perangkat lunak (software)","Perangkat keras (hardware)","Motherboard","Register"],"e"],
+["Contoh sistem operasi adalah…",["Linux","Pengolah kata","Peramban web","Keyboard"],"e"],
+["Contoh aplikasi adalah…",["Pengolah kata","Windows","macOS","Linux"],"e"],
+["Kepanjangan RAM adalah…",["Random Access Memory","Read Access Memory","Rapid Active Memory","Random Actual Memory"],"e"],
+["Data pada RAM akan…",["Hilang ketika komputer dimatikan","Tetap tersimpan permanen","Hanya dapat dibaca","Disimpan secara magnetis"],"e"],
+["Kepanjangan ROM adalah…",["Read Only Memory","Random Only Memory","Read Open Memory","Real Output Memory"],"e"],
+["Media penyimpanan yang menyimpan data secara magnetis dengan piringan berputar adalah…",["HDD","SSD","RAM","Register"],"e"],
+["Tahap pertama dalam siklus pemrosesan data adalah…",["Input","Proses","Output","Penyimpanan"],"e"],
+["Kecepatan CPU sering diukur dalam satuan…",["Hertz (Hz)","Byte","Watt","Piksel"],"e"],
+["Pada siklus pemrosesan data, tahap output adalah…",["Hasil pengolahan ditampilkan, misalnya lewat layar atau printer","Data dimasukkan lewat keyboard","Data diolah oleh CPU","Data disimpan ke SSD"],"e"],
+["Control Unit (CU) bertugas…",["Mengambil dan menerjemahkan instruksi program","Melakukan perhitungan matematika","Menyimpan data secara permanen","Mengubah arus listrik"],"m"],
+["Arithmetic Logic Unit (ALU) melakukan…",["Operasi aritmetika dan perbandingan logika","Penerjemahan instruksi program","Penyimpanan data jangka panjang","Penampilan grafis"],"m"],
+["Kecepatan CPU dalam GHz menunjukkan…",["Banyaknya siklus instruksi yang diproses CPU tiap detik","Kapasitas penyimpanan CPU","Jumlah inti pada CPU","Ukuran fisik CPU"],"m"],
+["Keunggulan CPU multi-core adalah…",["Dapat menjalankan beberapa proses secara bersamaan","Tidak memerlukan RAM","Tidak dipengaruhi komponen lain","Datanya tidak hilang saat mati"],"m"],
+["Hubungan perangkat keras dan perangkat lunak yang benar adalah…",["Saling bergantung satu sama lain","Perangkat keras tidak membutuhkan perangkat lunak","Perangkat lunak dapat jalan tanpa perangkat keras","Keduanya berdiri sendiri"],"m"],
+["Perbedaan RAM dan ROM yang benar adalah…",["RAM bersifat volatile, ROM non-volatile","RAM non-volatile, ROM volatile","Keduanya volatile","Keduanya non-volatile"],"m"],
+["SSD jauh lebih cepat daripada HDD karena…",["Menyimpan data secara elektronik tanpa komponen bergerak","Memiliki piringan yang berputar lebih cepat","Menyimpan data secara magnetis","Selalu berkapasitas lebih besar"],"m"],
+["Tugas sistem operasi adalah…",["Mengelola seluruh sumber daya komputer","Menjalankan satu tugas tertentu seperti mengetik","Menghubungkan komponen secara fisik","Mengubah arus listrik"],"m"],
+["Urutan siklus pemrosesan data yang benar adalah…",["Input – proses – output – penyimpanan","Proses – input – output – penyimpanan","Input – output – proses – penyimpanan","Penyimpanan – input – proses – output"],"m"],
+["Pada siklus pemrosesan data, tahap proses dilakukan oleh…",["CPU dengan Control Unit dan ALU","Keyboard dan mouse","Monitor dan printer","SSD"],"m"],
+["Memori kecil dan sangat cepat di dalam CPU untuk data yang sedang diproses adalah…",["Register","RAM","ROM","HDD"],"m"],
+["GPU sangat berperan dalam…",["Permainan, desain grafis, dan kecerdasan buatan","Mengubah arus listrik","Menghubungkan komponen","Menyimpan instruksi penyalaan"],"m"],
+["Pasangan yang keduanya termasuk perangkat keras adalah…",["RAM dan motherboard","Windows dan RAM","Peramban web dan mouse","Linux dan monitor"],"m"],
+["Komputer A: 3,5 GHz, 4 inti. Komputer B: 4,0 GHz, 2 inti. Pernyataan yang paling tepat adalah…",["Kinerja tidak hanya ditentukan clock; jumlah inti dan komponen lain juga berpengaruh","B pasti lebih cepat karena clock lebih tinggi","A pasti lebih lambat karena clock lebih rendah","Jumlah inti tidak memengaruhi kinerja"],"h"],
+["Budi mengetik laporan yang belum disimpan, lalu listrik padam mendadak dan tulisannya hilang. Penyebabnya adalah data berada di…",["RAM yang bersifat sementara (volatile)","ROM yang permanen","SSD yang menyimpan elektronik","HDD yang magnetis"],"h"],
+["Ani mengetik dokumen, mencetaknya, lalu menyimpannya. Pasangan tahap dan komponen yang tepat adalah…",["Input: keyboard; Proses: CPU; Output: printer; Penyimpanan: SSD","Input: printer; Proses: SSD; Output: keyboard; Penyimpanan: CPU","Input: CPU; Proses: keyboard; Output: SSD; Penyimpanan: printer","Input: monitor; Proses: printer; Output: CPU; Penyimpanan: mouse"],"h"],
+["Pernyataan yang SALAH tentang komponen komputer adalah…",["ROM kehilangan isinya saat komputer dimatikan","SSD menyimpan data secara elektronik tanpa komponen bergerak","Register berkapasitas sangat kecil namun sangat cepat","Sistem operasi mengelola seluruh sumber daya komputer"],"h"],
+// Soal bergambar (gambar dibuat dengan SVG: cpu, ram, mb, hdd, ssd)
+["Perhatikan gambar. Komponen tersebut berfungsi sebagai…",["Pusat pemrosesan data dan penjalan instruksi program","Penyimpan data permanen","Penghubung seluruh komponen komputer","Pengubah arus listrik untuk komponen"],"e","cpu"],
+["Perhatikan gambar. Komponen tersebut adalah…",["RAM (Random Access Memory)","ROM (Read Only Memory)","HDD (Hard Disk Drive)","Motherboard"],"e","ram"],
+["Perhatikan gambar. Komponen tersebut berfungsi untuk…",["Menghubungkan seluruh komponen agar dapat saling berkomunikasi","Memproses data grafis dan visual","Menyimpan data secara magnetis","Mengubah arus listrik menjadi arus yang sesuai"],"m","mb"],
+["Perhatikan gambar. Media penyimpanan tersebut menyimpan data dengan cara…",["Secara magnetis menggunakan piringan berputar","Secara elektronik tanpa komponen bergerak","Secara optik menggunakan sinar laser","Sementara selama komputer menyala"],"m","hdd"],
+["Perhatikan gambar media penyimpanan berupa papan sirkuit dengan chip memori tanpa piringan. Dibandingkan HDD, media tersebut…",["Jauh lebih cepat karena tanpa komponen bergerak","Lebih lambat karena piringannya berputar","Kehilangan datanya saat komputer dimatikan","Menyimpan data secara magnetis"],"h","ssd"],
+// Keyboard 10 jari
+["Tombol spasi ditekan menggunakan jari…",["Jempol","Telunjuk","Tengah","Kelingking"],"k"],
+["Posisi awal (home row) jari pada keyboard berada pada tombol…",["A S D F dan J K L ;","Q W E R dan U I O P","Z X C V dan M , . /","1 2 3 4 dan 7 8 9 0"],"k"],
+["Pada home row, jari telunjuk kiri diletakkan pada huruf…",["F","A","D","S"],"k"],
+["Huruf J ditekan menggunakan jari…",["Telunjuk kanan","Tengah kanan","Manis kanan","Kelingking kanan"],"k"],
+["Huruf K ditekan menggunakan jari…",["Tengah kanan","Telunjuk kanan","Manis kanan","Kelingking kanan"],"k"],
+["Huruf A ditekan menggunakan jari…",["Kelingking kiri","Manis kiri","Tengah kiri","Telunjuk kiri"],"k"],
+["Huruf E ditekan menggunakan jari…",["Tengah kiri","Telunjuk kiri","Manis kiri","Kelingking kiri"],"k"],
+["Huruf O ditekan menggunakan jari…",["Manis kanan","Tengah kanan","Telunjuk kanan","Kelingking kanan"],"k"],
+["Selain F, telunjuk kiri juga bertugas menekan huruf…",["G","H","D","S"],"k"],
+["Huruf P ditekan menggunakan jari…",["Kelingking kanan","Manis kanan","Tengah kanan","Telunjuk kanan"],"k"]
+];
+// ====== MESIN ASESMEN ======
+var app=document.getElementById("app"),st,i,sel,iv,cur;
+function $(id){return document.getElementById(id)}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function load(){try{return JSON.parse(localStorage.getItem(KEY))}catch(e){return null}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}}
+function shuf(a){a=a.slice();for(var j=a.length-1;j>0;j--){var k=Math.floor(Math.random()*(j+1));var t=a[j];a[j]=a[k];a[k]=t}return a}
+function dia(k){
+ function r(x,y,w,h,f,rx){return '<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="'+(rx||0)+'" style="fill:'+f+'" stroke="#0005" stroke-width=".8"/>'}
+ function c(x,y,q,f){return '<circle cx="'+x+'" cy="'+y+'" r="'+q+'" style="fill:'+f+'" stroke="#0005" stroke-width=".8"/>'}
+ var s='',j;
+ if(k=='cpu'){s=r(70,20,100,100,'#2e3340',8)+r(88,38,64,64,'#cfd3da',4)+r(96,46,48,48,'#b4b9c2',3);
+  for(j=0;j<9;j++)s+=r(78+j*10,24,5,5,'#e2b93b')+r(78+j*10,111,5,5,'#e2b93b')+r(74,32+j*9,5,5,'#e2b93b')+r(161,32+j*9,5,5,'#e2b93b')}
+ else if(k=='ram'){s=r(12,42,216,52,'#2f8f4e',3);
+  for(j=0;j<4;j++)s+=r(28+j*48,50,40,28,'#22252b',2);
+  for(j=0;j<34;j++)s+=r(16+j*6.2,94,4,9,'#e2b93b');
+  s+=r(114,92,7,13,'#e9ecf2')}
+ else if(k=='mb'){s=r(28,6,184,128,'#2a6b4f',4)+r(104,26,46,46,'#d5d8de',3)+r(112,34,30,30,'#a9aeb8',2)+r(66,48,28,28,'#8b909a',2);
+  for(j=0;j<4;j++)s+=r(164+j*11,18,7,74,'#20232a',1);
+  s+=r(44,96,110,7,'#20232a',1)+r(44,110,110,7,'#20232a',1)+r(44,122,60,5,'#20232a',1)+r(170,104,30,14,'#f0f0f0',1);
+  for(j=0;j<3;j++)s+=r(32,16+j*22,16,18,'#b9bec7',1)+c(62+j*12,24,4.5,'#8a8f99')}
+ else if(k=='hdd'){s=r(36,10,168,120,'#b7bbc3',8)+c(108,70,50,'#dfe2e8')+c(108,70,22,'#c3c7cf')+c(108,70,7,'#4a4e57')+'<line x1="180" y1="118" x2="124" y2="86" stroke="#4a4e57" stroke-width="6" stroke-linecap="round"/>'+c(180,118,7,'#6b707a');
+  [[46,20],[194,20],[46,120],[194,120]].forEach(function(p){s+=c(p[0],p[1],3,'#7a7f89')})}
+ else{s=r(22,28,196,84,'#2f7d59',5);
+  for(j=0;j<2;j++)s+=r(42,40+j*32,34,24,'#22252b',2)+r(84,40+j*32,34,24,'#22252b',2);
+  s+=r(128,50,32,32,'#3a3f4a',3)+r(196,50,20,40,'#20232a',2);
+  for(j=0;j<7;j++)s+=r(200,54+j*5,12,3,'#e2b93b')}
+ return '<svg viewBox="0 0 240 140" role="img" aria-label="Gambar komponen komputer">'+s+'</svg>'}
+function start(){
+ var ks=Object.keys(CFG.kelas);
+ app.innerHTML='<div class="card"><h1>Asesmen Bab 4: Sistem Komputer</h1><p class="mu">'+Q.length+' soal pilihan ganda. Tiap soal punya batas waktu sendiri, tidak bisa kembali ke soal sebelumnya, dan hanya bisa dikerjakan satu kali.</p>'+
+ '<label>Kelas</label><select id="kl">'+ks.map(function(k){return '<option>'+k+'</option>'}).join('')+'</select><label>Nama / NIS</label><input id="nm" autocomplete="off"><label>Kode dari guru</label><input id="kd" autocomplete="off" autocapitalize="characters"><div class="err" id="er"></div><button class="pri" id="go">Mulai</button></div>';
+ $("go").onclick=function(){
+  var c=$("kl").value,n=$("nm").value.trim(),k=$("kd").value.trim().toUpperCase(),cf=CFG.kelas[c];
+  if(!cf.on){$("er").textContent="Asesmen kelas "+c+" belum dibuka oleh guru.";return}
+  if(!n){$("er").textContent="Isi nama atau NIS dulu.";return}
+  if(k!==cf.kode.toUpperCase()){$("er").textContent="Kode salah. Tanyakan kepada gurumu.";return}
+  st={name:n,kls:c,order:shuf(Q.map(function(_,j){return j})),ans:{},pos:0,done:false,sw:0};i=0;save();show()}}
+function show(){
+ if(i>=Q.length)return finish();
+ var q=Q[st.order[i]],t=T[q[2]],end=Date.now()+t*1000;sel=null;cur=q;
+ var o=shuf(q[1]);
+ app.innerHTML='<div class="top"><span>Soal '+(i+1)+' / '+Q.length+'</span><span id="tm">'+t+'</span></div><div class="bar"><i id="bf"></i></div><div class="card"><p>'+q[0]+'</p>'+(q[3]?dia(q[3]):'')+
+ '<div id="op">'+o.map(function(x,j){return '<button class="opt" data-j="'+j+'">'+esc(x)+'</button>'}).join('')+'</div><button class="pri" id="nx">'+(i==Q.length-1?'Selesai':'Lanjut')+'</button></div>';
+ var bs=app.querySelectorAll(".opt");
+ bs.forEach(function(b){b.onclick=function(){bs.forEach(function(x){x.classList.remove("on")});b.classList.add("on");sel=o[+b.dataset.j]}});
+ $("nx").onclick=nextQ;
+ clearInterval(iv);
+ iv=setInterval(function(){var l=Math.max(0,Math.ceil((end-Date.now())/1000));$("tm").textContent=l;$("tm").className=l<=5?"lo":"";$("bf").style.width=Math.max(0,(end-Date.now())/(t*10))+"%";if(l<=0)nextQ()},250)}
+function nextQ(){clearInterval(iv);st.ans[st.order[i]]=sel;i++;st.pos=i;save();show()}
+function finish(){
+ clearInterval(iv);st.done=true;save();
+ var sc=0,rv='';
+ st.order.forEach(function(j){var q=Q[j],a=st.ans[j];if(a===q[1][0])sc++;else rv+='<div class="rv">'+q[0]+'<br>Jawabanmu: <s>'+esc(a||'(kosong)')+'</s><br>Yang benar: <b>'+esc(q[1][0])+'</b></div>'});
+ var nilai=Math.round(sc/Q.length*100);
+ app.innerHTML='<div class="card"><h1>Selesai, '+esc(st.name)+' ('+esc(st.kls||'')+')</h1><div class="big">'+nilai+'</div><p style="text-align:center">Benar '+sc+' dari '+Q.length+' soal</p><p class="mu" style="text-align:center">Tunjukkan layar ini kepada gurumu. Asesmen tidak bisa dibuka lagi.'+(st.sw?' Keluar dari halaman: '+st.sw+' kali.':'')+'</p></div>'+
+ (rv?'<div class="card"><b>Pembahasan jawaban yang salah</b>'+rv+'</div>':'')}
+document.addEventListener("visibilitychange",function(){if(document.hidden&&st&&!st.done){st.sw=(st.sw||0)+1;save()}});
+var CFGRE=/(<script type="application\/json" id="cfg">)([\s\S]*?)(<\/script>)/;
+var REPO=location.hostname.replace(".github.io","")+"/"+(location.pathname.split("/")[1]||""),gp={};
+function gtok(){try{return localStorage.getItem("asesmen_gh_token")||""}catch(e){return""}}
+function b64d(b){var bin=atob(b.replace(/\s/g,"")),u=new Uint8Array(bin.length);for(var j=0;j<bin.length;j++)u[j]=bin.charCodeAt(j);return new TextDecoder().decode(u)}
+function b64e(t){var u=new TextEncoder().encode(t),bin="";for(var j=0;j<u.length;j+=8192)bin+=String.fromCharCode.apply(null,u.subarray(j,j+8192));return btoa(bin)}
+function api(m,body){
+ var h={"Authorization":"Bearer "+gtok(),"Accept":"application/vnd.github+json"};if(body)h["Content-Type"]="application/json";
+ return fetch("https://api.github.com/repos/"+REPO+"/contents/index.html",{method:m,headers:h,body:body?JSON.stringify(body):undefined,cache:"no-store"}).then(function(r){return r.json().then(function(j){if(!r.ok){var e=new Error(j.message||"error");e.status=r.status;throw e}return j})})}
+function msg(t,ok){var e=$("pe");if(e){e.textContent=t;e.style.color=ok?"var(--ok)":"var(--no)"}}
+function fail(e){
+ var t=e.status==401?"Token ditolak atau sudah kedaluwarsa. Hapus token lalu buat yang baru.":(e.status==403||e.status==404)?"Token tidak punya izin untuk repository ini. Pastikan izin Contents: Read and write dan repository yang dipilih benar.":e.status==409?"Ada perubahan lain di GitHub. Tutup lalu buka Setting lagi.":"Gagal terhubung ke GitHub. Periksa internet lalu coba lagi.";
+ msg(t,false)}
+function closeBtn(){return '<button class="opt" id="pc" style="margin-top:8px;text-align:center">Tutup</button>'}
+function panel(){
+ var w=$("pn");if(w)w.remove();
+ w=document.createElement("div");w.id="pn";document.body.appendChild(w);
+ function wire(){$("pc").onclick=function(){w.remove()};var d=$("del");if(d)d.onclick=function(){try{localStorage.removeItem("asesmen_gh_token")}catch(e){}panel()}}
+ if(!gtok()){
+  w.innerHTML='<div class="card"><h1>Setting</h1><p class="mu">Tempel token GitHub milikmu. Cukup sekali, dan token hanya disimpan di HP ini.</p><input id="tk" placeholder="github_pat_..." autocomplete="off"><div class="err" id="pe"></div><button class="pri" id="tks">Simpan token</button>'+closeBtn()+'</div>';wire();
+  $("tks").onclick=function(){var v=$("tk").value.trim();if(!v){msg("Token belum diisi.",false);return}try{localStorage.setItem("asesmen_gh_token",v)}catch(e){msg("Browser menolak menyimpan token.",false);return}panel()};return}
+ w.innerHTML='<div class="card"><h1>Setting</h1><p class="mu" id="pe">Memuat pengaturan terbaru...</p>'+closeBtn()+'</div>';wire();
+ api("GET").then(function(j){gp.sha=j.sha;gp.text=b64d(j.content);gp.cfg=JSON.parse(gp.text.match(CFGRE)[2]);form()}).catch(function(e){fail(e);w.querySelector(".card").insertAdjacentHTML("beforeend",'<button class="opt" id="del" style="margin-top:8px;text-align:center">Hapus token</button>');wire()});
+ function form(){
+  var h='<div class="card"><h1>Setting</h1><p class="mu">Atur kelas yang dibuka dan kodenya, lalu tekan Simpan. Perubahan aktif sekitar 1 sampai 10 menit setelah disimpan. Siswa yang sedang mengerjakan tidak terganggu.</p>';
+  Object.keys(gp.cfg.kelas).forEach(function(k){var c=gp.cfg.kelas[k];h+='<div class="rv"><b style="color:var(--tx)">Kelas '+k+'</b><label><input type="checkbox" data-k="'+k+'"'+(c.on?' checked':'')+'>Dibuka untuk siswa</label>Kode:<input data-c="'+k+'" value="'+esc(c.kode)+'"></div>'});
+  h+='<p class="mu">Sesi ke-'+gp.cfg.sesi+'</p><label class="mu"><input type="checkbox" id="ns">Mulai sesi baru (siswa boleh mengerjakan lagi)</label><div class="err" id="pe" style="margin-top:10px"></div><button class="pri" id="ps">Simpan</button>'+closeBtn()+'<button class="opt" id="del" style="margin-top:8px;text-align:center">Hapus token dari HP ini</button></div>';
+  w.innerHTML=h;wire();
+  $("ps").onclick=function(){
+   var nc=JSON.parse(JSON.stringify(gp.cfg)),cs=[];
+   Object.keys(nc.kelas).forEach(function(k){nc.kelas[k].on=w.querySelector('[data-k="'+k+'"]').checked;nc.kelas[k].kode=w.querySelector('[data-c="'+k+'"]').value.trim();cs.push(nc.kelas[k].kode.toUpperCase())});
+   if(cs.some(function(x){return !x})){msg("Kode tidak boleh kosong.",false);return}
+   if(new Set(cs).size<cs.length){msg("Kode tiap kelas harus berbeda.",false);return}
+   if($("ns").checked)nc.sesi++;
+   var nt=gp.text.replace(CFGRE,function(m,a,b,c){return a+JSON.stringify(nc)+c});
+   msg("Menyimpan...",true);$("ps").disabled=true;
+   api("PUT",{message:"Ubah pengaturan kelas",content:b64e(nt),sha:gp.sha}).then(function(j){gp.sha=j.content.sha;gp.text=nt;gp.cfg=nc;$("ns").checked=false;$("ps").disabled=false;msg("Tersimpan. Akan aktif dalam beberapa menit.",true)}).catch(function(e){$("ps").disabled=false;fail(e)})}}
+}
+var tc=0,tt=0;
+if(/github\.io$/.test(location.hostname))document.addEventListener("click",function(e){if(!e.target.closest||!e.target.closest("h1")||e.target.closest("#pn"))return;var n=Date.now();if(n-tt>3000)tc=0;tt=n;if(++tc>=5){tc=0;panel()}});
+var prev=load();
+if(prev&&prev.order){st=prev;i=prev.pos||0;if(!st.done){for(var z=i;z<Q.length;z++)st.ans[st.order[z]]=st.ans[st.order[z]]||null;i=Q.length}finish()}else start();
+</script></body></html>
